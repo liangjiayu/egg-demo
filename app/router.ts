@@ -5,5 +5,9 @@ export default (app: Application) => {
 
   router.get('/', controller.home.index);
 
-  router.get('/list', controller.list.getList);
+  router.post('/api/article/create', controller.article.create);
+  router.post('/api/article/del', controller.article.del);
+  router.post('/api/article/update', controller.article.update);
+  router.post('/api/article/list', controller.article.list);
+  router.post('/api/article/detail', controller.article.detail);
 };
