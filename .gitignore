@@ -19,5 +19,6 @@ app/**/*.map
 test/**/*.map
 config/**/*.map
 
-typings/
+typings/**/*
+!/typings/index.d.ts
 package-lock.json
