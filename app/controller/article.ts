@@ -2,11 +2,21 @@ import { Controller } from 'egg';
 
 export default class ArticleController extends Controller {
   public async create() {
-    const { ctx } = this;
-    const formData = ctx.request.body;
+    // this.ctx.helper.success([]);
+    // throw new Error();
+    // if () {
 
-    const result = await this.service.article.create(formData);
-    ctx.body = result;
+    // }
+
+    // const { ctx } = this;
+    // const formData = ctx.request.body;
+    // const rule = {
+    //   title: 'string',
+    // };
+    // ctx.validate(rule, formData);
+
+    // const result = await this.service.article.create(formData);
+    // ctx.body = result;
   }
 
   public async list() {
