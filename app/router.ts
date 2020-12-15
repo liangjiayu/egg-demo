@@ -10,4 +10,8 @@ export default (app: Application) => {
   router.post('/api/article/update', controller.article.update);
   router.post('/api/article/list', controller.article.list);
   router.post('/api/article/detail', controller.article.detail);
+
+  // admin
+  router.post('/api/admin/register', controller.admin.register);
+  router.post('/api/admin/login', controller.admin.login);
 };
