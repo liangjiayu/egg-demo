@@ -11,8 +11,8 @@
     "allowJs": false,
     "pretty": true,
     "noEmitOnError": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    // "noUnusedLocals": true, // 若有未使用的局部变量则抛错。
+    // "noUnusedParameters": true, // 若有未使用的参数则抛错。
     "allowUnreachableCode": false,
     "allowUnusedLabels": false,
     "strictPropertyInitialization": false,

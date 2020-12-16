@@ -40,6 +40,18 @@ export default class AdminController extends Controller {
    * 登录用户
    */
   public async login() {
-    console.log('login');
+    const { ctx } = this;
+    const formData = ctx.request.body;
+
+    // 参数验证
+    await this.ctx.helper.validate(formData, {
+      email: { type: 'string', required: true },
+      password: { type: 'string', required: true },
+    });
+
+    const user = await this.service.admin.signIn(formData);
+
+    this.ctx.helper.msgSuccess(user);
+
   }
 }
