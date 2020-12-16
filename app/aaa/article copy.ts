@@ -25,23 +25,4 @@ export default class Article extends Service {
     const result = await this.app.mysql.get('blog', { id: params.id });
     return result;
   }
-
-  /**
-   * 添加一篇文章
-   * @param params 前端入参
-   */
-  public async addArticle(params) {
-    const record = {
-      title: params.title,
-      author: params.author,
-      description: params.description,
-      keyword: params.keyword,
-      content: params.content,
-      cover: params.cover,
-    };
-
-    const result = await this.app.mysql.insert('article', record);
-
-    return this.ctx.helper.checkMysqlInsert(result);
-  }
 }

@@ -1,27 +1,22 @@
 import { Controller } from 'egg';
 
 export default class ArticleController extends Controller {
-  /**
-   * 新增文章
-   */
   public async create() {
-    const { ctx } = this;
-    const formData = ctx.request.body;
+    // this.ctx.helper.success([]);
+    // throw new Error();
+    // if () {
 
-    // 参数验证
-    await this.ctx.helper.validate(formData, {
-      title: { type: 'string', required: true },
-      author: { type: 'string', required: true },
-      description: { type: 'string', required: true },
-      keyword: { type: 'string', required: true },
-      content: { type: 'string', required: true },
-      cover: { type: 'string', required: true },
-    });
+    // }
 
-    const result = await this.service.article.addArticle(formData);
-    if (result) {
-      return this.ctx.helper.msgSuccess();
-    }
+    // const { ctx } = this;
+    // const formData = ctx.request.body;
+    // const rule = {
+    //   title: 'string',
+    // };
+    // ctx.validate(rule, formData);
+
+    // const result = await this.service.article.create(formData);
+    // ctx.body = result;
   }
 
   public async list() {
