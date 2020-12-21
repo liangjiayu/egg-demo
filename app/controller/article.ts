@@ -24,31 +24,66 @@ export default class ArticleController extends Controller {
     }
   }
 
-  public async list() {
+  /**
+   * 更新文章
+   */
+  public async update() {
     const { ctx } = this;
-    const result = await this.service.article.list();
-    ctx.body = result;
+    const formData = ctx.request.body;
+
+    // 参数验证
+    await this.ctx.helper.validate(formData, {
+      id: { type: 'string', required: true },
+    });
+
+    const result = await this.service.article.updateArticle(formData);
+
+    if (result) {
+      return this.ctx.helper.msgSuccess();
+    }
   }
 
+  /**
+   * 获取文章详情
+   */
+  public async detail() {
+    const { ctx } = this;
+    const formData = ctx.request.body;
+
+    // 参数验证
+    await this.ctx.helper.validate(formData, {
+      id: { type: 'string', required: true },
+    });
+
+    const result = await this.service.article.getArticleById(formData.id);
+
+    return this.ctx.helper.msgSuccess(result);
+  }
+
+  /**
+   * 删除单条文章
+   */
   public async del() {
     const { ctx } = this;
     const formData = ctx.request.body;
 
-    const result = await this.service.article.del(formData);
-    ctx.body = result;
+    // 参数验证
+    await this.ctx.helper.validate(formData, {
+      id: { type: 'string', required: true },
+    });
+
+    const result = await this.service.article.delArticleById(formData.id);
+
+    if (result) {
+      return this.ctx.helper.msgSuccess();
+    }
   }
 
-  public async update() {
-    const { ctx } = this;
-    const formData = ctx.request.body;
-    const result = await this.service.article.update(formData);
-    ctx.body = result;
-  }
-
-  public async detail() {
-    const { ctx } = this;
-    const formData = ctx.request.body;
-    const result = await this.service.article.detail(formData);
-    ctx.body = result;
+  /**
+   * 获取文章列表
+   */
+  public async list() {
+    const result = await this.service.article.getArticleList();
+    return this.ctx.helper.msgSuccess(result);
   }
 }

@@ -64,12 +64,36 @@ export default {
   /**
    * 查询mysql是否插入成功
    * @param this helper
-   * @param info mysql插入信息
+   * @param info mysql处理信息
    */
   checkMysqlInsert(this: IHelper, info) {
     if (info.affectedRows === 1) {
       return true;
     }
     return false;
+  },
+
+  /**
+   * 查询mysql是否删除成功
+   * @param this helper
+   * @param info mysql处理信息
+   */
+  checkMysqlDelate(this: IHelper, info) {
+    if (info.affectedRows === 1) {
+      return true;
+    }
+    throw new Error('Mysql删除失败');
+  },
+
+  /**
+   * 查询mysql是否更新成功
+   * @param this helper
+   * @param info mysql处理信息
+   */
+  checkMysqlUpdate(this: IHelper, info) {
+    if (info.affectedRows === 1) {
+      return true;
+    }
+    throw new Error('Mysql更新失败');
   },
 };
