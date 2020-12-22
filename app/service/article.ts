@@ -1,4 +1,5 @@
 import { Service } from 'egg';
+import { mergeForm } from '../utils/index';
 
 export default class Article extends Service {
   /**
@@ -40,9 +41,24 @@ export default class Article extends Service {
 
   /**
    * 查询文章列表
+   * @param params 前端参数
    */
-  public async getArticleList() {
-    const result = await this.app.mysql.select('article');
+  public async getArticleList(params) {
+    const source = {
+      keyword: '',
+      pageSize: 10,
+      pageNum: 1,
+    };
+
+    const query = mergeForm(source, params);
+
+    const result = await this.ctx.helper.baseListPage({
+      sql: 'SELECT * FROM `article` WHERE `keyword` LIKE ?',
+      value: [ `%${query.keyword}%` ],
+      pageNum: query.pageNum,
+      pageSize: query.pageSize,
+    });
+
     return result;
   }
 

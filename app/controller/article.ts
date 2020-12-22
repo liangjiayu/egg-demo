@@ -83,7 +83,10 @@ export default class ArticleController extends Controller {
    * 获取文章列表
    */
   public async list() {
-    const result = await this.service.article.getArticleList();
+    const { ctx } = this;
+    const formData = ctx.request.body;
+
+    const result = await this.service.article.getArticleList(formData);
     return this.ctx.helper.msgSuccess(result);
   }
 }
