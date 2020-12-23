@@ -53,6 +53,7 @@ export default class Article extends Service {
     const query = mergeForm(source, params);
 
     const result = await this.ctx.helper.baseListPage({
+      tableName: 'article',
       sql: 'SELECT * FROM `article` WHERE `keyword` LIKE ?',
       value: [ `%${query.keyword}%` ],
       pageNum: query.pageNum,

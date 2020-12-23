@@ -2,6 +2,7 @@ import { IHelper } from 'egg';
 import Schema from 'async-validator';
 
 interface pageOption {
+  tableName:string;
   sql: string;
   value: any[];
   pageSize: number;
@@ -110,6 +111,7 @@ export default {
    */
   async baseListPage(this: IHelper, option: pageOption) {
     const _option = {
+      tableName: option.tableName || '',
       sql: option.sql || '',
       value: option.value || [],
       pageNum: Number(option.pageNum) || 1,
@@ -123,7 +125,15 @@ export default {
       _option.pageSize,
     ];
 
-    const result = await this.app.mysql.query(_sql, _sqlValue);
+    const result = {
+      row: [],
+      total: 0,
+      current: _option.pageNum,
+      size: _option.pageSize,
+    };
+
+    result.row = await this.app.mysql.query(_sql, _sqlValue);
+    result.total = await this.app.mysql.count(_option.tableName);
 
     return result;
   },
