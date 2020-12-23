@@ -15,4 +15,8 @@ export default (app: Application) => {
   router.post('/api/article/del', controller.article.del);
   router.post('/api/article/list', controller.article.list);
   router.post('/api/article/update', controller.article.update);
+
+
+  // router.resources('users', '/users', controller.users);
+  router.post('/api/users/create', controller.users.create);
 };

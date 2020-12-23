@@ -1,0 +1,9 @@
+{
+  "development": {
+    "username": "root",
+    "password": "1013834609",
+    "database": "egg-orm",
+    "host": "127.0.0.1",
+    "dialect": "mysql"
+  }
+}
