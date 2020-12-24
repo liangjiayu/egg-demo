@@ -18,10 +18,9 @@ export default class ArticleController extends Controller {
       cover: { type: 'string', required: true },
     });
 
-    const result = await this.service.article.addArticle(formData);
-    if (result) {
-      return this.ctx.helper.msgSuccess();
-    }
+    const article = await this.service.article.addArticle(formData);
+
+    return this.ctx.helper.msgSuccess(article);
   }
 
   /**
@@ -36,11 +35,8 @@ export default class ArticleController extends Controller {
       id: { type: 'string', required: true },
     });
 
-    const result = await this.service.article.updateArticle(formData);
-
-    if (result) {
-      return this.ctx.helper.msgSuccess();
-    }
+    const article = await this.service.article.updateArticle(formData);
+    return this.ctx.helper.msgSuccess(article);
   }
 
   /**
@@ -55,9 +51,9 @@ export default class ArticleController extends Controller {
       id: { type: 'string', required: true },
     });
 
-    const result = await this.service.article.getArticleById(formData.id);
+    const article = await this.service.article.getArticleById(formData.id);
 
-    return this.ctx.helper.msgSuccess(result);
+    return this.ctx.helper.msgSuccess(article);
   }
 
   /**
@@ -72,11 +68,8 @@ export default class ArticleController extends Controller {
       id: { type: 'string', required: true },
     });
 
-    const result = await this.service.article.delArticleById(formData.id);
-
-    if (result) {
-      return this.ctx.helper.msgSuccess();
-    }
+    await this.service.article.delArticleById(formData.id);
+    return this.ctx.helper.msgSuccess();
   }
 
   /**

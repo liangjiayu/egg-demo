@@ -1,5 +1,5 @@
 import { Service } from 'egg';
-import { mergeForm } from '../utils/index';
+import { Op } from 'sequelize';
 
 export default class Article extends Service {
   /**
@@ -7,7 +7,7 @@ export default class Article extends Service {
    * @param params 前端参数
    */
   public async addArticle(params) {
-    const record = {
+    const row = {
       title: params.title,
       author: params.author,
       description: params.description,
@@ -16,9 +16,9 @@ export default class Article extends Service {
       cover: params.cover,
     };
 
-    const result = await this.app.mysql.insert('article', record);
+    const article = await this.ctx.model.Article.create(row);
 
-    return this.ctx.helper.checkMysqlInsert(result);
+    return article;
   }
 
   /**
@@ -26,8 +26,12 @@ export default class Article extends Service {
    * @param id 文章id
    */
   public async getArticleById(id) {
-    const result = await this.app.mysql.get('article', { id });
-    return result;
+    const _id = Number(id);
+    const article = await this.ctx.model.Article.findByPk(_id);
+    if (!article) {
+      throw new Error('暂无该文章');
+    }
+    return article;
   }
 
   /**
@@ -35,8 +39,13 @@ export default class Article extends Service {
    * @param id 文章id
    */
   public async delArticleById(id) {
-    const result = await this.app.mysql.delete('article', { id });
-    return this.ctx.helper.checkMysqlDelate(result);
+    const _id = Number(id);
+    const article = await this.ctx.model.Article.findByPk(_id);
+    if (!article) {
+      throw new Error('暂无该文章');
+    }
+    await article.destroy();
+    return true;
   }
 
   /**
@@ -44,23 +53,27 @@ export default class Article extends Service {
    * @param params 前端参数
    */
   public async getArticleList(params) {
-    const source = {
-      keyword: '',
-      pageSize: 10,
-      pageNum: 1,
+    const query = {
+      keyword: params.keyword,
+      pageSize: Number(params.pageSize) || 10,
+      pageNum: Number(params.pageNum) || 1,
     };
 
-    const query = mergeForm(source, params);
+    const whereOp: any = {};
 
-    const result = await this.ctx.helper.baseListPage({
-      tableName: 'article',
-      sql: 'SELECT * FROM `article` WHERE `keyword` LIKE ?',
-      value: [ `%${query.keyword}%` ],
-      pageNum: query.pageNum,
-      pageSize: query.pageSize,
+    if (query.keyword) {
+      whereOp.keyword = {
+        [Op.like]: `%${query.keyword}%`,
+      };
+    }
+
+    const articleList = await this.ctx.model.Article.findAll({
+      where: whereOp,
+      limit: query.pageSize,
+      offset: (query.pageNum - 1) * query.pageSize,
     });
 
-    return result;
+    return articleList;
   }
 
   /**
@@ -68,8 +81,14 @@ export default class Article extends Service {
    * @param params 前端参数
    */
   public async updateArticle(params) {
-    const record = {
-      id: params.id,
+    const id = Number(params.id);
+
+    const article = await this.ctx.model.Article.findByPk(id);
+    if (!article) {
+      throw new Error('暂无该文章');
+    }
+
+    const content = {
       title: params.title,
       author: params.author,
       description: params.description,
@@ -77,9 +96,8 @@ export default class Article extends Service {
       content: params.content,
       cover: params.cover,
     };
+    await article.update(content);
 
-    const result = await this.app.mysql.update('article', record);
-
-    return this.ctx.helper.checkMysqlUpdate(result);
+    return article;
   }
 }
