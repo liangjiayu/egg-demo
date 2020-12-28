@@ -1,11 +1,6 @@
 import { Service } from 'egg';
 
-export default class Admin extends Service {
-  public async create(params) {
-    const result = await this.app.mysql.insert('blog', params);
-    return result;
-  }
-
+export default class User extends Service {
   /**
    * 添加用户
    * @param params 前端入参
@@ -13,13 +8,9 @@ export default class Admin extends Service {
   public async addUser(params) {
     const { nickname, email, password } = params;
 
-    const result = await this.app.mysql.insert('user', {
-      nickname,
-      email,
-      password,
-    });
+    const uesr = this.ctx.model.User.create({ nickname, email, password });
 
-    return this.ctx.helper.checkMysqlInsert(result);
+    return uesr;
   }
 
   /**
@@ -28,7 +19,8 @@ export default class Admin extends Service {
    */
   public async signIn(params) {
     const { email, password } = params;
-    const user = await this.app.mysql.get('user', { email });
+    const user = await this.ctx.model.User.findOne({ where: { email } });
+
     if (!user) {
       throw new Error('用户不存在');
     }

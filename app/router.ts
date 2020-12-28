@@ -5,9 +5,10 @@ export default (app: Application) => {
 
   router.get('/', controller.home.index);
 
-  // admin
-  router.post('/api/admin/register', controller.admin.register);
-  router.post('/api/admin/login', controller.admin.login);
+
+  // user
+  router.post('/api/user/register', controller.user.register);
+  router.post('/api/user/login', controller.user.login);
 
   // article
   router.post('/api/article/create', controller.article.create);

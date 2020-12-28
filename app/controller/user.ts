@@ -1,6 +1,6 @@
 import { Controller } from 'egg';
 
-export default class AdminController extends Controller {
+export default class UserController extends Controller {
   /**
    * 注册用户
    */
@@ -29,11 +29,9 @@ export default class AdminController extends Controller {
     });
 
     // 插入记录
-    const result = await this.service.admin.addUser(formData);
+    const uesr = await this.service.user.addUser(formData);
 
-    if (result) {
-      this.ctx.helper.msgSuccess();
-    }
+    this.ctx.helper.msgSuccess(uesr);
   }
 
   /**
@@ -49,9 +47,8 @@ export default class AdminController extends Controller {
       password: { type: 'string', required: true },
     });
 
-    const user = await this.service.admin.signIn(formData);
+    const user = await this.service.user.signIn(formData);
 
     this.ctx.helper.msgSuccess(user);
-
   }
 }
