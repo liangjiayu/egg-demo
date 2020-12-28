@@ -73,7 +73,14 @@ export default class Article extends Service {
       offset: (query.pageNum - 1) * query.pageSize,
     });
 
-    return articleList;
+    const count = await this.ctx.model.Article.count();
+
+    return {
+      rows: articleList,
+      current: query.pageNum,
+      size: query.pageSize,
+      total: count,
+    };
   }
 
   /**
