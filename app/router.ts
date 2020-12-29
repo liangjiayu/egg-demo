@@ -29,4 +29,11 @@ export default (app: Application) => {
   router.post('/api/comment/del', controller.comment.del);
   router.post('/api/comment/list', controller.comment.list);
   router.post('/api/comment/update', controller.comment.update);
+
+  // reply
+  router.post('/api/reply/create', controller.reply.create);
+  router.post('/api/reply/detail', controller.reply.detail);
+  router.post('/api/reply/del', controller.reply.del);
+  router.post('/api/reply/list', controller.reply.list);
+  router.post('/api/reply/update', controller.reply.update);
 };
