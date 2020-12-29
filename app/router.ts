@@ -22,4 +22,11 @@ export default (app: Application) => {
   router.post('/api/category/del', controller.category.del);
   router.post('/api/category/list', controller.category.list);
   router.post('/api/category/update', controller.category.update);
+
+  // comment
+  router.post('/api/comment/create', controller.comment.create);
+  router.post('/api/comment/detail', controller.comment.detail);
+  router.post('/api/comment/del', controller.comment.del);
+  router.post('/api/comment/list', controller.comment.list);
+  router.post('/api/comment/update', controller.comment.update);
 };
